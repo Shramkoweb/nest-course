@@ -7,6 +7,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
 import { Relation } from '../constants';
 import { Flavor } from './entities/flavor.entity';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Injectable()
 export class CoffeesService {
@@ -17,13 +18,17 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
   ) {}
 
-  findAll() {
+  findAll(paginationQueryDto: PaginationQueryDto) {
+    const { limit, offset } = paginationQueryDto;
+
     return this.coffeeRepository.find({
       relations: [Relation.FLAVORS],
+      skip: offset,
+      take: limit,
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const coffee = await this.coffeeRepository.findOne(id, {
       relations: [Relation.FLAVORS],
     });
@@ -34,6 +39,7 @@ export class CoffeesService {
   }
 
   async create(createCoffeeDto: CreateCoffeeDto) {
+    console.log(createCoffeeDto);
     const flavors = await Promise.all(
       createCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
     );
@@ -52,7 +58,7 @@ export class CoffeesService {
         updateCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
       ));
     const coffee = await this.coffeeRepository.preload({
-      id: +id,
+      id: parseInt(id, 10),
       ...updateCoffeeDto,
       flavors,
     });
@@ -62,7 +68,7 @@ export class CoffeesService {
     return this.coffeeRepository.save(coffee);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     const coffee = await this.findOne(id);
     return this.coffeeRepository.remove(coffee);
   }

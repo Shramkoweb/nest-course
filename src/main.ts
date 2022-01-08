@@ -8,7 +8,12 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      transform:
+        true /* transform primitives in controller params/query findOne(id: number) */,
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true /* transform full class dto types */,
+      },
     }),
   );
   await app.listen(3000);
