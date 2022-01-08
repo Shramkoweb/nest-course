@@ -16,7 +16,7 @@ import { CoffeesModule } from './coffees/coffees.module';
       port: parseInt(process.env.POSTGRES_PORT, 10),
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DATABASE,
+      database: process.env.POSTGRES_DB,
       autoLoadEntities: true,
       synchronize: true, // TODO shouldn't be used in production - otherwise you can lose production data.
     }),
