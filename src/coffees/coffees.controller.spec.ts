@@ -5,11 +5,8 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-
-// TODO move to some test config init ?
-class CoffeeRepositoryFake {}
-
-class FlavorRepositoryFake {}
+import { Connection } from 'typeorm';
+import { createMockRepository } from '../common/tests';
 
 describe('CoffeesController', () => {
   let controller: CoffeesController;
@@ -19,13 +16,14 @@ describe('CoffeesController', () => {
       controllers: [CoffeesController],
       providers: [
         CoffeesService,
-        {
-          provide: getRepositoryToken(Coffee),
-          useClass: CoffeeRepositoryFake,
-        },
+        { provide: Connection, useValue: {} },
         {
           provide: getRepositoryToken(Flavor),
-          useClass: FlavorRepositoryFake,
+          useValue: createMockRepository(),
+        },
+        {
+          provide: getRepositoryToken(Coffee),
+          useValue: createMockRepository(),
         },
       ],
     }).compile();

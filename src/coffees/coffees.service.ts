@@ -17,6 +17,7 @@ export class CoffeesService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
+    // @InjectConnection() work without this -> maybe because ormconfig provide this
     private readonly connection: Connection,
   ) {}
 
