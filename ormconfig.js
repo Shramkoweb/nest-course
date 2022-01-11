@@ -1,12 +1,12 @@
 module.exports = {
   type: 'postgres',
-  host: 'localhost',
-  port: parseInt(process.env.POSTGRES_PORT, 10),
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATABASE_PORT, 10),
+  username: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
   autoLoadEntities: true,
-  synchronize: true, // TODO shouldn't be used in production - otherwise you can lose production data.
+  synchronize: process.env.NODE_ENV === 'development',
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
   cli: {
