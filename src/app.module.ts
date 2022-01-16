@@ -6,6 +6,7 @@ import * as Joi from '@hapi/joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CoffeesModule } from './coffees/coffees.module';
     }),
     CoffeesModule,
     TypeOrmModule.forRoot(),
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
