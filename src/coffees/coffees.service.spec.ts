@@ -43,7 +43,7 @@ describe('CoffeesService', () => {
         const coffeeId = 1;
         const expectedCoffee = {};
 
-        coffeeRepository.findOne.mockReturnValue(expectedCoffee);
+        coffeeRepository.find.mockReturnValue(expectedCoffee);
         const coffee = await service.findOne(coffeeId);
         expect(coffee).toEqual(expectedCoffee);
       });
