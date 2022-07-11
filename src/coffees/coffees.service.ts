@@ -32,7 +32,10 @@ export class CoffeesService {
   }
 
   async findOne(id: number) {
-    const coffee = await this.coffeeRepository.findOne(id, {
+    const coffee = await this.coffeeRepository.find({
+      where: {
+        id,
+      },
       relations: [Relation.FLAVORS],
     });
     if (!coffee) {
@@ -101,7 +104,7 @@ export class CoffeesService {
 
   // TODO check we really need this on create or update coffee if flavor not exist in DB
   private async preloadFlavorByName(name: string): Promise<Flavor> {
-    const existingFlavor = await this.flavorRepository.findOne({ name });
+    const existingFlavor = await this.flavorRepository.findOneBy({ name });
     if (existingFlavor) {
       return existingFlavor;
     }
